@@ -18,11 +18,11 @@ $ python3 -m virtualenv venv
 $ source venv/bin/activate
 ```
 
+Este comando instala as dependências/bibliotecas, descritas no arquivo `requirements.txt`.
+
 ```
 (env)$ pip install -r requirements.txt
 ```
-
-Este comando instala as dependências/bibliotecas, descritas no arquivo `requirements.txt`.
 
 Para executar a API  basta executar:
 
