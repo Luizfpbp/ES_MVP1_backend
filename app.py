@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 from model import Session, Produto, Comentario
 from logger import logger
-from schemas import *
+from resources import *
 from flask_cors import CORS
 
 info = Info(title="Minha API", version="1.0.0")

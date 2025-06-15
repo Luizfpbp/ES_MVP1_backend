@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 from model.produto import Produto
 
-from schemas import ComentarioSchema
+from resources import ComentarioSchema
 
 
 class ProdutoSchema(BaseModel):
