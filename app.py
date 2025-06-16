@@ -7,16 +7,37 @@ from sqlalchemy.exc import IntegrityError
 from model import Session, Produto, Comentario
 from logger import logger
 from resources import *
+
+# schema imports
+from resources.emprestimo.schema import EmprestimoSchema, EndEmprestimoSchema, EmprestimoViewSchema, ListEmprestimoSchema
+from resources.usuario.schema import UsuarioSchema, UsuarioViewSchema, ListUsuariosSchema
+from resources.livro.schema import LivroSchema, LivroViewSchema, ListLivrosSchema
+
+# service imports
+from resources.emprestimo.service import EmprestimoService
+from resources.usuario.service import UsuarioService
+from resources.livro.service import LivroService
+
 from flask_cors import CORS
 
 info = Info(title="Minha API", version="1.0.0")
 app = OpenAPI(__name__, info=info)
 CORS(app)
 
+# services
+borrowService = EmprestimoService()
+userService = UsuarioService()
+bookService = LivroService()
+
+
+
 # definindo tags
 home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
 produto_tag = Tag(name="Produto", description="Adição, visualização e remoção de produtos à base")
 comentario_tag = Tag(name="Comentario", description="Adição de um comentário à um produtos cadastrado na base")
+usuario_tag = Tag(name="Usuario", description="Adição e visualização de usuários à base")
+livro_tag = Tag(name="Livro", description="Adição e visualização de um livro cadastrado na base")
+emprestimo_tag = Tag(name="Emprestimo", description="Adição e visualização de emprestimos à base")
 
 
 @app.get('/', tags=[home_tag])
@@ -168,3 +189,68 @@ def add_comentario(form: ComentarioSchema):
 
     # retorna a representação de produto
     return apresenta_produto(produto), 200
+
+# novas rotas
+
+@app.post('/usuario', tags=[usuario_tag], 
+          responses={"200": UsuarioViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def add_usuario(form: UsuarioSchema):
+    """
+    Adiciona um novo Usuário à base de dados
+    Retorna uma representação do usuário.
+    """
+    return userService.add_usuario(form)
+
+@app.get('/usuarios', tags=[usuario_tag],
+         responses={"200": ListUsuariosSchema, "404": ErrorSchema})
+def get_usuarios():
+    """
+    Faz a busca por todos os Usuários cadastrados
+    Retorna uma representação da listagem de usuários.
+    """
+    return userService.get_usuarios()
+
+@app.post('/livro', tags=[livro_tag], 
+          responses={"200": LivroViewSchema, "409": ErrorSchema, "400": ErrorSchema})
+def add_livro(form: LivroSchema):
+    """
+    Adiciona um novo Livro à base de dados
+    Retorna uma representação do livro.
+    """
+    return bookService.add_livro(form)
+
+@app.get('/livros', tags=[livro_tag],
+         responses={"200": ListLivrosSchema, "404": ErrorSchema})
+def get_livros():
+    """
+    Faz a busca por todos os Livros cadastrados
+    Retorna uma representação da listagem de livros.
+    """
+    return bookService.get_livros()
+
+@app.post('/emprestimo', tags=[emprestimo_tag],
+          responses={"200": EmprestimoViewSchema, "404": ErrorSchema})
+def add_emprestimo(form: EmprestimoSchema):
+    """
+    Adiciona um novo Emprestimo à base de dados
+    Retorna uma representação do emprestimo.
+    """
+    return borrowService.add_emprestimo(form)
+
+@app.post('/emprestimo/devolver', tags=[emprestimo_tag],
+          responses={"200": EmprestimoViewSchema, "404": ErrorSchema, "400": ErrorSchema})
+def end_emprestimo(form: EndEmprestimoSchema):
+    """
+    Finaliza um Emprestimo a partir do id do emprestimo informado
+    Retorna uma representação do emprestimo finalizado.
+    """
+    return borrowService.end_emprestimo(form)
+
+@app.get('/emprestimos', tags=[emprestimo_tag],
+         responses={"200": ListEmprestimoSchema, "404": ErrorSchema})
+def get_emprestimos():
+    """
+    Faz a busca por todos os Emprestimos cadastrados
+    Retorna uma representação da listagem de emprestimos.
+    """
+    return borrowService.get_emprestimos()

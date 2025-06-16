@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, DateTime
-
+from sqlalchemy.orm import relationship
 from model import Base
 
 
@@ -11,6 +11,8 @@ class Usuario(Base):
     email = Column(String(140), unique=True)
     data_nascimento = Column(DateTime)
 
+    emprestimos = relationship("Emprestimo", back_populates="usuario")
+
     def __init__(self, nome:str, email:int, data_nascimento:DateTime):
         """
         Cria um Usuário
@@ -20,6 +22,6 @@ class Usuario(Base):
             email: email do usuário.
             data_nascimento: data de nascimento do usuário.
         """
-        self.nome = nome,
-        self.email = email,
-        self.data_nascimento = data_nascimento,
+        self.nome = nome
+        self.email = email
+        self.data_nascimento = data_nascimento
