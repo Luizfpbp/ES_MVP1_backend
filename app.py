@@ -8,16 +8,6 @@ from model import Session, Produto, Comentario
 from logger import logger
 from resources import *
 
-# schema imports
-from resources.emprestimo.schema import EmprestimoSchema, EndEmprestimoSchema, EmprestimoViewSchema, ListEmprestimoSchema
-from resources.usuario.schema import UsuarioSchema, UsuarioViewSchema, ListUsuariosSchema
-from resources.livro.schema import LivroSchema, LivroViewSchema, ListLivrosSchema
-
-# service imports
-from resources.emprestimo.service import EmprestimoService
-from resources.usuario.service import UsuarioService
-from resources.livro.service import LivroService
-
 from flask_cors import CORS
 
 info = Info(title="Minha API", version="1.0.0")
@@ -28,8 +18,6 @@ CORS(app)
 borrowService = EmprestimoService()
 userService = UsuarioService()
 bookService = LivroService()
-
-
 
 # definindo tags
 home_tag = Tag(name="Documentação", description="Seleção de documentação: Swagger, Redoc ou RapiDoc")
@@ -237,7 +225,7 @@ def add_emprestimo(form: EmprestimoSchema):
     """
     return borrowService.add_emprestimo(form)
 
-@app.post('/emprestimo/devolver', tags=[emprestimo_tag],
+@app.put('/emprestimo/devolver', tags=[emprestimo_tag],
           responses={"200": EmprestimoViewSchema, "404": ErrorSchema, "400": ErrorSchema})
 def end_emprestimo(form: EndEmprestimoSchema):
     """
