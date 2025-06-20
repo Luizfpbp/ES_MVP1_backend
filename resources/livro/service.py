@@ -1,6 +1,6 @@
 from resources.livro.dto import LivroDTO
 from model import Session, Livro
-from .schema import LivroSchema
+from .schema import LivroSchema, GetLivrosSchema
 from datetime import datetime
 from logger import logger
 from typing import List
@@ -9,10 +9,14 @@ from typing import List
 class LivroService():
     livroSession = Session()
 
-    def get_livros(self):
+    def get_livros(self, query: GetLivrosSchema):
         logger.debug("Coletando livros...")
+        service = self.livroSession.query(Livro)
 
-        livros: List[Livro] = self.livroSession.query(Livro).all()
+        if query.disponivel is not None:
+            service = service.filter(Livro.disponivel == query.disponivel)
+
+        livros: List[Livro] = service.all()
         if not livros:
             logger.debug("Nenhum livro encontrado")
             return {"values": []}, 200

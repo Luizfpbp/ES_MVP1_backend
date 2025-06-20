@@ -209,12 +209,12 @@ def add_livro(form: LivroSchema):
 
 @app.get('/livros', tags=[livro_tag],
          responses={"200": ListLivrosSchema, "404": ErrorSchema})
-def get_livros():
+def get_livros(query: GetLivrosSchema):
     """
     Faz a busca por todos os Livros cadastrados
     Retorna uma representação da listagem de livros.
     """
-    return bookService.get_livros()
+    return bookService.get_livros(query)
 
 @app.post('/emprestimo', tags=[emprestimo_tag],
           responses={"200": EmprestimoViewSchema, "404": ErrorSchema})

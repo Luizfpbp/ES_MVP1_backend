@@ -23,6 +23,12 @@ class LivroViewSchema(BaseModel):
     genero:Genero = Genero.COMEDIA
     disponivel:bool = True
 
+class GetLivrosSchema(BaseModel):
+    """ 
+    Define os possiveis filtros presentes na listagem de livros.
+    """
+    disponivel: Optional[bool] = None
+
 class ListLivrosSchema(BaseModel):
     """ 
     Define como uma listagem de livros será retornada.
