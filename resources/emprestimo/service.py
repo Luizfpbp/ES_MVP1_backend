@@ -11,7 +11,7 @@ class EmprestimoService():
     def get_emprestimos(self):
         logger.debug("Coletando emprestimos...")
 
-        emprestimos: List[Emprestimo] = self.emprestimoSession.query(Emprestimo).all()
+        emprestimos: List[Emprestimo] = self.emprestimoSession.query(Emprestimo).order_by(Emprestimo.data_emprestimo.desc()).all()
         if not emprestimos:
             logger.debug("Nenhum emprestimo encontrado")
             return {"values": []}, 200
