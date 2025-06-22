@@ -61,13 +61,13 @@ def add_produto(form: ProdutoSchema):
         # como a duplicidade do nome é a provável razão do IntegrityError
         error_msg = "Produto de mesmo nome já salvo na base :/"
         logger.warning(f"Erro ao adicionar produto '{produto.nome}', {error_msg}")
-        return {"mesage": error_msg}, 409
+        return {"message": error_msg}, 409
 
     except Exception as e:
         # caso um erro fora do previsto
         error_msg = "Não foi possível salvar novo item :/"
         logger.warning(f"Erro ao adicionar produto '{produto.nome}', {error_msg}")
-        return {"mesage": error_msg}, 400
+        return {"message": error_msg}, 400
 
 
 @app.get('/produtos', tags=[produto_tag],
@@ -111,7 +111,7 @@ def get_produto(query: ProdutoBuscaSchema):
         # se o produto não foi encontrado
         error_msg = "Produto não encontrado na base :/"
         logger.warning(f"Erro ao buscar produto '{produto_nome}', {error_msg}")
-        return {"mesage": error_msg}, 404
+        return {"message": error_msg}, 404
     else:
         logger.debug(f"Produto econtrado: '{produto.nome}'")
         # retorna a representação de produto
@@ -137,12 +137,12 @@ def del_produto(query: ProdutoBuscaSchema):
     if count:
         # retorna a representação da mensagem de confirmação
         logger.debug(f"Deletado produto #{produto_nome}")
-        return {"mesage": "Produto removido", "id": produto_nome}
+        return {"message": "Produto removido", "id": produto_nome}
     else:
         # se o produto não foi encontrado
         error_msg = "Produto não encontrado na base :/"
         logger.warning(f"Erro ao deletar produto #'{produto_nome}', {error_msg}")
-        return {"mesage": error_msg}, 404
+        return {"message": error_msg}, 404
 
 
 @app.post('/cometario', tags=[comentario_tag],
@@ -163,7 +163,7 @@ def add_comentario(form: ComentarioSchema):
         # se produto não encontrado
         error_msg = "Produto não encontrado na base :/"
         logger.warning(f"Erro ao adicionar comentário ao produto '{produto_id}', {error_msg}")
-        return {"mesage": error_msg}, 404
+        return {"message": error_msg}, 404
 
     # criando o comentário
     texto = form.texto

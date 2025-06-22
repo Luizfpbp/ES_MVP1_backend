@@ -50,7 +50,7 @@ class EmprestimoService():
         except Exception as error:
             error_msg = "Não foi possível criar o emprestimo"
             logger.warning(f"Erro ao criar o emprestimo, {error}")
-            return {"mesage": error_msg}, 400
+            return {"message": error_msg}, 400
     
     def end_emprestimo(self, form:EndEmprestimoSchema):
         try:
@@ -78,4 +78,4 @@ class EmprestimoService():
         except Exception as error:
             error_msg = "Não foi possível finalizar o empréstimo"
             logger.warning(f"Erro ao alterar o emprestimo, {error}")
-            return {"mesage": error_msg}, 400
+            return {"message": error_msg}, 400

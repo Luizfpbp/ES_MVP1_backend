@@ -26,6 +26,11 @@ class UsuarioService():
         try:
             logger.debug(f"Criando usuário com os dados {form}")
 
+            emailExist = self.usuarioSession.query(Usuario).filter(Usuario.email == form.email).first()
+
+            if emailExist:
+                raise IntegrityError("Email já existente", params=None, orig=None)
+
             data_nascimento = datetime.strptime(form.data_nascimento, "%d/%m/%Y")
             usuario: Usuario = Usuario(nome=form.nome, email=form.email, data_nascimento=data_nascimento)
             self.usuarioSession.add(usuario)
@@ -38,9 +43,9 @@ class UsuarioService():
         except IntegrityError as error:
             error_msg = "Email já existente"
             logger.warning(f"Erro ao criar o emprestimo, {error_msg}")
-            return {"mesage": error_msg}, 409 
+            return {"message": error_msg}, 409 
         
         except Exception as error:
             error_msg = "Não foi possível salvar o Usuário"
             logger.warning(f"Erro ao criar o emprestimo, {error}")
-            return {"mesage": error_msg}, 400
+            return {"message": error_msg}, 400

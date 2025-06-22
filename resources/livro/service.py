@@ -41,4 +41,4 @@ class LivroService():
         except Exception as error:
             error_msg = "Não foi possível salvar o Livro"
             logger.warning(f"Erro ao criar o livro, {error}")
-            return {"mesage": error_msg}, 400
+            return {"message": error_msg}, 400

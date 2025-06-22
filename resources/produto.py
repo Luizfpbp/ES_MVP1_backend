@@ -56,7 +56,7 @@ class ProdutoDelSchema(BaseModel):
     """ Define como deve ser a estrutura do dado retornado após uma requisição
         de remoção.
     """
-    mesage: str
+    message: str
     nome: str
 
 def apresenta_produto(produto: Produto):
