@@ -10,7 +10,7 @@ class LivroSchema(BaseModel):
     titulo:str = "Titulo"
     autor:Optional[str] = "Jorge"
     lancamento:str = "10/06/2022"
-    genero:Genero = Genero.COMEDIA
+    genero:str = Genero.COMEDIA
 
 class LivroViewSchema(BaseModel):
     """ 
@@ -20,7 +20,7 @@ class LivroViewSchema(BaseModel):
     titulo:str = "Titulo"
     autor:Optional[str] = "Jorge"
     lancamento:datetime = datetime.now()
-    genero:Genero = Genero.COMEDIA
+    genero:str = Genero.COMEDIA
     disponivel:bool = True
 
 class GetLivrosSchema(BaseModel):

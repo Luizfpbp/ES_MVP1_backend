@@ -1,6 +1,7 @@
+from .schema import LivroSchema, GetLivrosSchema
 from resources.livro.dto import LivroDTO
 from model import Session, Livro
-from .schema import LivroSchema, GetLivrosSchema
+from enums.livros import Genero
 from datetime import datetime
 from logger import logger
 from typing import List
@@ -30,7 +31,13 @@ class LivroService():
             logger.debug(f"Criando livro com os dados {form}")
 
             lancamento = datetime.strptime(form.lancamento, "%d/%m/%Y")
-            livro: Livro = Livro(form.titulo, form.autor, lancamento, form.genero)
+
+            try:
+                genero_enum = Genero(form.genero)
+            except ValueError:
+                raise ValueError(f"'{form.genero}' não é um gênero válido.")
+
+            livro: Livro = Livro(form.titulo, form.autor, lancamento, genero_enum)
             self.livroSession.add(livro)
             self.livroSession.commit()
 
