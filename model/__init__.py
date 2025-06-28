@@ -5,8 +5,6 @@ import os
 
 # importando os elementos definidos no modelo
 from model.base import Base
-from model.comentario import Comentario
-from model.produto import Produto
 from model.usuario import Usuario
 from model.livro import Livro
 from model.emprestimo import Emprestimo
